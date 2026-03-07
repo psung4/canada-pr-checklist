@@ -38,6 +38,8 @@ export default function QuestionnairePage() {
     setAnswers(newAnswers);
     setSelected("");
 
+    track("question_answered", { step: currentIndex + 1, questionId: currentQuestion.id, value: selected });
+
     if (isLast) {
       track("questionnaire_completed");
       const params = new URLSearchParams();
