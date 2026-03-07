@@ -73,25 +73,63 @@ Vercel Analytics events tracked:
 
 ---
 
-## Security Posture
+## Security
 
-### Attack Surface
-This is a static frontend app. There is no server-side user input processing, no database, no authentication, and no user-generated content served to other users. The attack surface is extremely small.
+### Current Architecture: Static Frontend
+This app has no backend, no database, no API routes, no user accounts, and no API keys. This means the entire class of server-side vulnerabilities (exposed secrets, SQL injection, auth bypass, RLS misconfig) simply does not exist here. The attack surface is extremely small.
 
-### Mitigations in Place
-| Threat | Mitigation |
-|--------|-----------|
-| Clickjacking | `X-Frame-Options: DENY` header |
-| MIME sniffing | `X-Content-Type-Options: nosniff` header |
-| XSS via URL params | React renders all text content safely (escapes HTML); URL params are also whitelisted against allowed values before use |
-| Unexpected URL param values | `safeParam()` whitelist validator in checklist/page.tsx — invalid values fall back to safe defaults |
-| Referrer leakage | `Referrer-Policy: strict-origin-when-cross-origin` header |
-| Unwanted browser features | `Permissions-Policy: camera=(), microphone=(), geolocation=()` |
-| localStorage manipulation | Only affects the manipulating user's own session — not a concern |
-| Analytics abuse | Vercel Analytics `track()` is client-side only; fake events from console do not affect other users or document content |
+### What's In Place (MVP)
+| Threat | Mitigation | Status |
+|--------|-----------|--------|
+| Clickjacking | `X-Frame-Options: DENY` header | ✅ Done |
+| MIME sniffing | `X-Content-Type-Options: nosniff` | ✅ Done |
+| XSS via URL params | React escapes all text; params whitelisted via `safeParam()` | ✅ Done |
+| Invalid URL param values | `safeParam()` validator — invalid values fall back to safe defaults | ✅ Done |
+| Referrer leakage | `Referrer-Policy: strict-origin-when-cross-origin` | ✅ Done |
+| Unwanted browser features | `Permissions-Policy: camera=(), microphone=(), geolocation=()` | ✅ Done |
+| localStorage manipulation | Only affects the user's own session — no impact on others | ✅ N/A |
+| Exposed API keys | No API keys exist in this app | ✅ N/A |
+| Hallucinated/malicious packages | Only 4 deps: next, react, react-dom, @vercel/analytics — all major, real packages | ✅ N/A |
+| Search engine indexing of dynamic URLs | robots.txt blocks /checklist (param-heavy, useless for SEO) | ✅ Done |
+| Inaccurate privacy disclosure | Terms page accurately describes what analytics data is collected | ✅ Done |
 
-### What "Rate Limiting Bypass" Means for This App
-There are no API endpoints to rate-limit. The concern about "bypassing rate limiting via input" applies to apps with server-side processing. This app has none, so it does not apply. If future features add server-side endpoints (e.g., email delivery, user accounts), rate limiting must be added at that point.
+---
+
+### Security Checklist for Future Features
+As the app grows, each new feature introduces a new security surface. Use this as a running checklist.
+
+#### If you add a database (e.g. Supabase, Postgres)
+- [ ] Enable Row Level Security (RLS) on every table — default deny, explicit allow
+- [ ] Never use the service role key client-side — only use it server-side
+- [ ] Create scoped roles: read-only where you only read, no delete permissions on tables that shouldn't be deletable
+- [ ] Test RLS policies with a non-admin user before shipping
+
+#### If you add API keys / external services (e.g. OpenAI, Stripe, email)
+- [ ] Store all keys in `.env.local` (never hardcode in source files)
+- [ ] Add `.env*` to `.gitignore` before first commit — rotate any key that was ever committed
+- [ ] Make all API calls server-side (Next.js Route Handlers or Server Actions) — never call paid APIs from the browser
+- [ ] Use minimum permission scope: read-only keys if you only read, restricted IP allowlists where supported
+
+#### If you add user accounts / authentication
+- [ ] Use an established provider (Clerk, NextAuth, Supabase Auth) — do not build auth from scratch
+- [ ] Never store plain-text passwords
+- [ ] Add rate limiting to login/signup endpoints (e.g. Upstash + middleware)
+- [ ] Protect all server routes with auth middleware — default deny, explicit allow
+
+#### If you add server-side endpoints (API routes)
+- [ ] Validate and sanitize all input server-side — never trust the frontend
+- [ ] Add rate limiting (Upstash ratelimit + Vercel middleware is the standard pattern)
+- [ ] Return generic error messages to users — never expose stack traces or internal details
+- [ ] Use CSRF protection for any state-changing endpoints
+
+#### If you add file uploads
+- [ ] Validate file type server-side (not just by extension — check MIME type)
+- [ ] Set file size limits
+- [ ] Store files in isolated storage (e.g. S3/Vercel Blob), never serve them from your server directly
+- [ ] Scan for malware if files are shared with other users
+
+#### General principle to always follow
+> **Principle of least privilege**: only grant the minimum access needed. A feature that reads data should not have write access. A service account for sending emails should not have access to read emails. A database connection for one table should not have access to all tables.
 
 ---
 
