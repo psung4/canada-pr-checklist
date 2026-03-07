@@ -55,7 +55,7 @@ export default function TermsPage() {
           },
           {
             title: "7. Privacy",
-            body: "This tool does not collect, store, or transmit your personal information to any server. All data you enter stays in your browser only. We use Vercel Analytics to collect anonymous, aggregate visitor counts (no cookies, no personal data).",
+            body: "This tool does not collect, store, or transmit any personally identifiable information. Your checklist progress is saved in your own browser's local storage only — it never leaves your device. We use Vercel Analytics to collect anonymous usage data (page views, which questions are answered, which documents are checked off). No names, emails, or identifying information are ever collected.",
           },
         ].map((item) => (
           <div key={item.title} style={{ marginBottom: "36px" }}>
