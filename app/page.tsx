@@ -104,10 +104,10 @@ export default function Home() {
             letterSpacing: "-0.03em",
             marginBottom: "8px",
           }}>
-            All 6 countries. Ready now.
+            Is your spouse from one of these countries?
           </h2>
           <p style={{ fontSize: "14px", color: "#999", fontWeight: 500 }}>
-            Each checklist is tailored to your country — not generic advice.
+            We support 6 of the most common countries of origin — each with its own tailored document list.
           </p>
         </div>
 
