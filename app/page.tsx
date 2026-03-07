@@ -52,10 +52,10 @@ export default function Home() {
             marginBottom: "28px",
             maxWidth: "720px",
           }}>
-            Stop guessing.
+            Get your free
             <br />
-            <span style={{ color: "#555" }}>Get your exact Canadian
-            <br />spousal PR documents.</span>
+            <span style={{ color: "#555" }}>Canadian Spousal PR
+            <br />checklist today.</span>
           </h1>
 
           <p style={{
@@ -65,7 +65,7 @@ export default function Home() {
             marginBottom: "44px",
             maxWidth: "520px",
           }}>
-            Answer 8 questions. Get a personalized checklist — tailored to your country, relationship type, and situation. Built from official IRCC requirements.
+            Answer 8 questions. Get a personalized checklist tailored to your country, relationship type, and situation.
           </p>
 
           <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
@@ -107,7 +107,7 @@ export default function Home() {
             All 6 countries. Ready now.
           </h2>
           <p style={{ fontSize: "14px", color: "#999", fontWeight: 500 }}>
-            Each checklist is built from IRCC's country-specific requirements — not generic advice.
+            Each checklist is tailored to your country — not generic advice.
           </p>
         </div>
 
@@ -171,7 +171,7 @@ export default function Home() {
               {
                 n: "1",
                 title: "Answer 8 questions",
-                body: "Inland or outland? Married, common-law, or conjugal? Which country? We ask only what IRCC actually needs to determine your document list.",
+                body: "Inland or outland? Married, common-law, or conjugal? Which country? We ask only what's needed to determine your document list.",
               },
               {
                 n: "2",
