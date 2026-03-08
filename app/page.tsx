@@ -23,7 +23,7 @@ export default function Home() {
         borderBottom: "1px solid #ebebeb",
         background: "#fff",
       }}>
-        <div style={{ maxWidth: "880px", margin: "0 auto", padding: "96px 32px 88px" }}>
+        <div className="hero-inner">
 
           {/* Badge */}
           <div style={{
@@ -95,7 +95,7 @@ export default function Home() {
       </div>
 
       {/* ── COUNTRIES ────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: "880px", margin: "0 auto", padding: "72px 32px" }}>
+      <div className="section-inner">
         <div style={{ marginBottom: "36px" }}>
           <h2 style={{
             fontSize: "28px",
@@ -111,7 +111,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
+        <div className="country-grid">
           {countries.map((c) => (
             <div
               key={c.name}
@@ -155,7 +155,7 @@ export default function Home() {
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────── */}
       <div style={{ borderTop: "1px solid #ebebeb", background: "#fafafa" }}>
-        <div style={{ maxWidth: "880px", margin: "0 auto", padding: "72px 32px" }}>
+        <div className="section-inner">
           <h2 style={{
             fontSize: "28px",
             fontWeight: 800,
@@ -166,7 +166,7 @@ export default function Home() {
             How it works
           </h2>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
+          <div className="steps-grid">
             {[
               {
                 n: "1",
@@ -220,16 +220,7 @@ export default function Home() {
 
       {/* ── BOTTOM CTA ───────────────────────────────────────────────── */}
       <div style={{ borderTop: "1px solid #ebebeb" }}>
-        <div style={{
-          maxWidth: "880px",
-          margin: "0 auto",
-          padding: "72px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "32px",
-          flexWrap: "wrap",
-        }}>
+        <div className="cta-inner">
           <div>
             <h2 style={{
               fontSize: "26px",

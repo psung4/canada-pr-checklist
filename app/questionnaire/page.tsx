@@ -84,7 +84,7 @@ export default function QuestionnairePage() {
         />
       </div>
 
-      <div style={{ maxWidth: "600px", margin: "0 auto", padding: "64px 24px 96px" }}>
+      <div className="questionnaire-inner">
 
         {/* Step counter */}
         <div style={{
@@ -154,7 +154,7 @@ export default function QuestionnairePage() {
         </div>
 
         {/* Navigation */}
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+        <div className="nav-buttons">
           <button
             onClick={handleBack}
             style={{
@@ -167,11 +167,13 @@ export default function QuestionnairePage() {
               color: "#555",
               cursor: "pointer",
               transition: "border-color 0.15s",
+              flexShrink: 0,
             }}
           >
             ← Back
           </button>
           <button
+            className="nav-continue"
             onClick={handleContinue}
             disabled={!selected}
             style={{
